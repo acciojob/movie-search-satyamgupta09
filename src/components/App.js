@@ -1,13 +1,14 @@
-
 import React from "react";
+import Search from "./Search";
 import './../styles/App.css';
 
 const App = () => {
   return (
     <div>
-        {/* Do not remove the main div */}
+      <p>Search Movie</p>
+      <Search />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
