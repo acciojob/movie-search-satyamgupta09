@@ -52,7 +52,7 @@ import React, { useState } from "react";
 
 export default function Search() {
   const [movie, setMovie] = useState("");
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -62,15 +62,15 @@ export default function Search() {
   const handleFetch = (e) => {
     e.preventDefault();
 
-    fetch(`https://www.omdbapi.com/?apikey=99eb9fd1&t=${movie}`)
+    fetch(`https://www.omdbapi.com/?apikey=99eb9fd1&s=${movie}`)
       .then((response) => response.json())
       .then((res) => {
         if (res.Response === "False") {
           setError("Invalid movie name. Please try again.");
           setData({});
         } else {
-        //   console.log(res);
-          setData(res);
+          console.log(res.Search);
+          setData(res.Search);
           setError("");
         }
       })
@@ -84,12 +84,14 @@ export default function Search() {
         <button type="submit">Search</button>
       </form>
       {error && <p className="error">{error}</p>}
-      {data.Title && (
+      {data && (
         <ul>
-          <li>
-            <h2>{data.Title}</h2>
-            <img src={data.Poster} alt={data.Title} />
-          </li>
+          {data?.map((movie, index) => (
+            <li key={index}>
+              <h2>{movie.Title}</h2>
+              <img src={movie.Poster} alt={movie.Title} />
+            </li>
+          ))}
         </ul>
       )}
     </div>
